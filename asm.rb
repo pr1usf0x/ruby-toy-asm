@@ -1,30 +1,30 @@
 require_relative "isa.rb"
 
+DEFAULT_OUTPUT_FILENAME = "a.out".freeze
+
 def prog(&block)
-    File.open(OUTPUT_NAME, "w")
-    block.call
+  block.call
 end
 
 begin
 
-prog do
-    syscall SCAN_UNSIGNED
-    li X2, 0
-    li X3, 1
+$pc_ = 0
+$program = []
+input = ARGV[0]
 
-    beq X1, X0, 8
-
-    add X4, X2, X3
-    add X2, X3, X0
-    add X3, X4, X0
-    addi X1, X1, -1
-    beq X1, X0, 3
-    j 4
-
-    add X1, X2, X0
-    syscall PRINT_UNSIGNED
+if not ARGV[1]
+  OUTPUT_NAME = "a.out"
+else
+  OUTPUT_NAME = ARGV[1]
 end
 
+prog do
+  load input
+end
+
+File.open(OUTPUT_NAME, "wb")
+File.binwrite(OUTPUT_NAME, $program.pack("V*"))
+
 rescue => e
-    puts e.message
+  puts e.message
 end

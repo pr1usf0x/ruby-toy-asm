@@ -1,7 +1,5 @@
 require_relative "encoding.rb"
 
-OUTPUT_NAME = "a.out".freeze
-
 # =================================== HELPERS =================================
 
 def GenReg1(reg)
@@ -23,141 +21,17 @@ def GenBits(bits, low_b, up_b)
 end
 
 def WriteInstr(instr)
-  bytes = [instr].pack("L")
-  File.open(OUTPUT_NAME, "ab") do |file|
-    file.write(bytes)
-  end
+  $pc_ += 4
+  $program.append(instr)
 end
 
 # ==================================== ASM_GEN ================================
 
-def X0(offset)
-  [X0, offset]
+32.times do |num|
+  define_method("X#{num}") { |*offset| [num, *offset] }
 end
 
-def X1(offset)
-  [X1, offset]
-end
 
-def X2(offset)
-  [X2, offset]
-end
-
-def X3(offset)
-  [X3, offset]
-end
-
-def X4(offset)
-  [X4, offset]
-end
-
-def X5(offset)
-  [X5, offset]
-end
-
-def X6(offset)
-  [X6, offset]
-end
-
-def X7(offset)
-  [X7, offset]
-end
-
-def X8(offset)
-  [X8, offset]
-end
-
-def X9(offset)
-  [X9, offset]
-end
-
-def X10(offset)
-  [X10, offset]
-end
-
-def X11(offset)
-  [X11, offset]
-end
-
-def X12(offset)
-  [X12, offset]
-end
-
-def X13(offset)
-  [X13, offset]
-end
-
-def X14(offset)
-  [X14, offset]
-end
-
-def X15(offset)
-  [X15, offset]
-end
-
-def X16(offset)
-  [X16, offset]
-end
-
-def X17(offset)
-  [X17, offset]
-end
-
-def X18(offset)
-  [X18, offset]
-end
-
-def X19(offset)
-  [X19, offset]
-end
-
-def X20(offset)
-  [X20, offset]
-end
-
-def X21(offset)
-  [X21, offset]
-end
-
-def X22(offset)
-  [X22, offset]
-end
-
-def X23(offset)
-  [X23, offset]
-end
-
-def X24(offset)
-  [X24, offset]
-end
-
-def X25(offset)
-  [X25, offset]
-end
-
-def X26(offset)
-  [X26, offset]
-end
-
-def X27(offset)
-  [X27, offset]
-end
-
-def X28(offset)
-  [X28, offset]
-end
-
-def X29(offset)
-  [X29, offset]
-end
-
-def X30(offset)
-  [X30, offset]
-end
-
-def X31(offset)
-  [X31, offset]
-end
 
 def ld(*args)
   case args.size
@@ -251,8 +125,8 @@ def rbit(rd, rs)
   WriteInstr(RBIT | GenReg1(rd) | GenReg2(rs) | GenBits(0, 6, 15) | GenBits(0b111110, 0, 5))
 end
 
-def syscall(code)
-  WriteInstr(SYSCALL | GenBits(code, 6, 25) | GenBits(0b010000, 0, 5))
+def syscall()
+  WriteInstr(SYSCALL | GenBits(0b010000, 0, 5))
 end
 
 def bext(rd, rs1, rs2)
