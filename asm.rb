@@ -13,7 +13,7 @@ class Assembler
     @input_filename = input_filename
     @labels = []
     @fixup_table = []
-    @v_address = 0x40100
+    @v_address = 0x4010
 
     extend isa
 
@@ -46,7 +46,6 @@ class Assembler
   end
 
   def write_elf
-    default_code_segment_no = 0
     default_template_path = "resource/empty_elf.out"
     elf = ELFTools::ELFFile.new(File.open(default_template_path))
     elf.header.e_machine = TOY_ISA::TARGET_MACHINE

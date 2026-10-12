@@ -158,7 +158,7 @@ def j(addr)
     write_instr(J | GenBits(addr, 0, 25))
   elsif addr.kind_of?(Symbol)
     block = proc do |program, instr_count, offset|
-      program[instr_count] |= GenBits(offset, 0, 25)
+      program[instr_count] |= GenBits(offset + @v_address / 4, 0, 25)
     end
     add_fixup(Fixup.new(addr, block, @instr_count))
     write_instr(J | GenBits(0, 0, 25))

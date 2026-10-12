@@ -1,5 +1,5 @@
 label :start
-li X0, SCAN_UNSIGNED
+li X8, SCAN_UNSIGNED
 syscall
 add X10, X0, X9
 li X11, 0
@@ -16,9 +16,7 @@ j :cycle
 label :skip
 
 add X1, X11, X9
-li X0, PRINT_UNSIGNED
+li X8, PRINT_UNSIGNED
 syscall
-li X0, EXIT
+li X8, EXIT
 syscall
-
-#section // segment
