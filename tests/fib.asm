@@ -1,3 +1,4 @@
+label :start
 li X0, SCAN_UNSIGNED
 syscall
 add X10, X0, X9
@@ -19,3 +20,5 @@ li X0, PRINT_UNSIGNED
 syscall
 li X0, EXIT
 syscall
+
+#section // segment
